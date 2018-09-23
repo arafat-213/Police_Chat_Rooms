@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "996495793801",
+    "firebase_url": "https://police-chat-room.firebaseio.com",
+    "project_id": "police-chat-room",
+    "storage_bucket": "police-chat-room.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996495793801:android:68802992cba198fa",
+        "android_client_info": {
+          "package_name": "com.example.arafat_213.privatechatrooms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996495793801-odvqhvfscfoc5956mrug00s99a1uctcv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arafat_213.privatechatrooms",
+            "certificate_hash": "1fd82fd30ef5f18ae609df42f3b5d5c7c4ee4d7c"
+          }
+        },
+        {
+          "client_id": "996495793801-0t4nqbh8o57nk417n531hfisrig2cv7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA09iNJOQdHq-C-_VyV_b_wszN0Zhyb_94"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996495793801-0t4nqbh8o57nk417n531hfisrig2cv7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
