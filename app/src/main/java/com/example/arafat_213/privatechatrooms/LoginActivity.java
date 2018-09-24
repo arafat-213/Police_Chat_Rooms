@@ -59,10 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
-                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                                }
                                 hideDialog();
                             }
                         }
@@ -95,10 +91,11 @@ public class LoginActivity extends AppCompatActivity {
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                PasswordResetDialog passwordResetDialog = new PasswordResetDialog();
+                passwordResetDialog.show(getSupportFragmentManager(), "dialog_password_reset");
             }
         });
+
 
         resendEmailVerification = findViewById(R.id.resend_verification_email);
         resendEmailVerification.setOnClickListener(new View.OnClickListener() {
@@ -155,8 +152,13 @@ public class LoginActivity extends AppCompatActivity {
                     if(user.isEmailVerified()){
                         Log.d(TAG, "setupFirebaseAuth: onAuthStateChanged: signed in");
                         Toast.makeText(getApplicationContext(), "Authenticate with: "+user.getEmail(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
                     } else{
                         Toast.makeText(getApplicationContext(), "Email is not verified, check your inbox", Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
                     }
 
                 } else {
