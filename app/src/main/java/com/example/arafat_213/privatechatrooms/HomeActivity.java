@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.arafat_213.privatechatrooms.utilities.UniversalImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -22,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setupFirebaseAuth();
+        initImageLoader();
     }
 
 
@@ -43,6 +46,16 @@ public class HomeActivity extends AppCompatActivity {
         if(mAuthListener != null)
             FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
     }
+
+
+    /**
+     * init universal image loader
+     */
+    private void initImageLoader() {
+        UniversalImageLoader imageLoader = new UniversalImageLoader(HomeActivity.this);
+        ImageLoader.getInstance().init(imageLoader.getConfig());
+    }
+
 
     @Override
     protected void onResume() {

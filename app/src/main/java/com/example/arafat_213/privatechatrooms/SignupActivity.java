@@ -12,12 +12,14 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.arafat_213.privatechatrooms.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -67,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
-    private void registerNewEmail(String email, String password) {
+    private void registerNewEmail(final String email, String password) {
         showDialog();
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -81,9 +83,36 @@ public class SignupActivity extends AppCompatActivity {
                             //send email verificaiton
                             sendVerificationEmail();
 
-                            FirebaseAuth.getInstance().signOut();
+                            User user = new User();
+                            user.setName(email.substring(0, email.indexOf('@')));
+                            user.setPhone("1234");
+                            user.setSecurity_level("1");
+                            user.setProfile_image("");
+                            user.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                            redirectLoginScreen();
+                            // inserting object into firebase
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(getString(R.string.dbnode_users))
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(user)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            FirebaseAuth.getInstance().signOut();
+
+                                            redirectLoginScreen();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SignupActivity.this, "something went wrong.", Toast.LENGTH_SHORT).show();
+                                    FirebaseAuth.getInstance().signOut();
+
+                                    //redirect the user to the login screen
+                                    redirectLoginScreen();
+                                }
+                            });
                         } else if (!task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_SHORT).show();
                         }
